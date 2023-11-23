@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DataAccess;
+using System.Linq;
+
 namespace Business
 {
     /// <summary>
@@ -11,13 +13,14 @@ namespace Business
     public class PostService : BaseService<Post>
     {
         private BaseModel<Post> _post;
-
+        private BaseModel<Customer> _customerModel;
         /// <summary>
         /// Constructor de la clase PostService.
         /// </summary>
         /// <param name="post">Una instancia de BaseModel<Post> que representa el modelo de datos de un Post.</param>
-        public PostService(BaseModel<Post> post) : base(post)
+        public PostService(BaseModel<Post> post, BaseModel<Customer> customerModel) : base(post)
         {
+            _customerModel = customerModel;
             _post = post;
         }
 
@@ -30,8 +33,8 @@ namespace Business
         public override Post Create(Post entity)
         {
             // Validar que el usuario asociado exista
-            var user = _post.FindById(entity.CustomerId);
-            if (user == null)
+            var customer = _customerModel.FindById(entity.CustomerId);
+            if (customer == null)
             {
                 throw new Exception("El usuario no existe");
             }
@@ -59,6 +62,16 @@ namespace Business
             }
 
             return base.Create(entity);
+        }
+
+        public void DeletePostsByCustomerId(int customerId)
+        {
+            var posts = GetAll().Where(post => post.CustomerId == customerId).ToList();
+
+            foreach (var post in posts)
+            {
+                Delete(post);
+            }
         }
     }
 

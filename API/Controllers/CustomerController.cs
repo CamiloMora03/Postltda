@@ -15,16 +15,18 @@ namespace API.Controllers.Customer
     {
         private BaseService<CustomerEntity> CustomerService1;
         private CustomerService _customerService;
+        private readonly PostService _postService;
 
         /// <summary>
         /// Constructor que inicializa los servicios para la entidad CustomerEntity.
         /// </summary>
         /// <param name="customerService1">El servicio base para la entidad CustomerEntity.</param>
         /// <param name="customerService">El servicio específico para la entidad CustomerEntity.</param>
-        public CustomerController(BaseService<CustomerEntity> customerService1, CustomerService customerService)
+        public CustomerController(BaseService<CustomerEntity> customerService1, CustomerService customerService, PostService  postService)
         {
             CustomerService1 = customerService1;
             _customerService = customerService;
+            _postService = postService;
         }
 
         /// <summary>
@@ -88,7 +90,11 @@ namespace API.Controllers.Customer
         [HttpDelete()]
         public CustomerEntity Delete([FromBodyAttribute] CustomerEntity entity)
         {
+            _postService.DeletePostsByCustomerId(entity.CustomerId);
+
+            // Luego de eliminar los posts, se puede proceder a eliminar al cliente
             return CustomerService1.Delete(entity);
+            
         }
     }
 

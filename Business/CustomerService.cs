@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DataAccess;
 using DataAccess.Data;
@@ -34,6 +35,9 @@ namespace Business
         {
             return _customerModel.FindByName(name);
         }
+
+
+        
     }
 
 

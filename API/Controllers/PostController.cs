@@ -21,6 +21,7 @@ namespace API.Controllers.Post
         {
             PostService = postService;
             _postService1 = postService1;
+
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace API.Controllers.Post
         [HttpDelete()]
         public PostEntity Delete([FromBodyAttribute] PostEntity entity)
         {
-            return PostService.Create(entity);
+            return PostService.Delete(entity);
         }
     }
 
