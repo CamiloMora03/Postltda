@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using CustomerEntity = DataAccess.Data.Customer;
 namespace DataAccess
 {
+    
     public class BaseModel<TEntity> where TEntity : class, new()
     {
 
@@ -38,10 +39,6 @@ namespace DataAccess
         public virtual IQueryable<TEntity> GetAll
         {
             get { return _dbSet; }
-        }
-        public virtual IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _dbSet.Where(predicate);
         }
 
 

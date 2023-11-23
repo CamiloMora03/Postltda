@@ -30,6 +30,7 @@ namespace ProjectAPI.API
             services.AddScoped<BaseService<Post>, BaseService<Post>>();            
             services.AddScoped<BaseModel<Post>, BaseModel<Post>>();
             services.AddScoped<CustomerModel>();
+            services.AddScoped<PostService>();
             services.AddScoped<CustomerService>();
 
 

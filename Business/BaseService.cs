@@ -33,7 +33,6 @@ namespace Business
         /// <returns></returns>
         public virtual TEntity Create(TEntity entity)
         {
-
             return _BaseModel.Create(entity);
         }
 
