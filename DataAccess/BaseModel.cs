@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
+using CustomerEntity = DataAccess.Data.Customer;
 namespace DataAccess
 {
     public class BaseModel<TEntity> where TEntity : class, new()
     {
+
+
         /// <summary>
         /// Contexto
         /// </summary>
@@ -29,6 +31,7 @@ namespace DataAccess
         }
 
 
+
         /// <summary>
         /// Consulta todas las entidades
         /// </summary>
@@ -36,6 +39,11 @@ namespace DataAccess
         {
             get { return _dbSet; }
         }
+        public virtual IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet.Where(predicate);
+        }
+
 
         /// <summary>
         /// Consulta una entidad por id

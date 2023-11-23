@@ -1,4 +1,5 @@
 ﻿using Business;
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -9,17 +10,19 @@ namespace API.Controllers.Customer
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
-        private BaseService<CustomerEntity> CustomerService;
-        public CustomerController(BaseService<CustomerEntity> customerService)
+        private BaseService<CustomerEntity> CustomerService1;
+        private CustomerService _customerService;
+        public CustomerController(BaseService<CustomerEntity> customerService1, CustomerService customerService)
         {
-            CustomerService = customerService;
+            CustomerService1 = customerService1;
+            _customerService = customerService;
         }
 
 
         [HttpGet()]
         public IQueryable<CustomerEntity> GetAll()
         {
-            return CustomerService.GetAll();
+            return CustomerService1.GetAll();
         }
 
 
@@ -31,20 +34,31 @@ namespace API.Controllers.Customer
 
         private CustomerEntity CreateCustomer(CustomerEntity entity)
         {
-            throw new Exception("");
-            return CustomerService.Create(entity);
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            var existingCustomer = _customerService.GetByName(entity.Name);
+
+            if (existingCustomer != null)
+            {
+                throw new Exception("Ya existe un cliente con el mismo nombre.");
+            }
+            return _customerService.Create(entity);
         }
+
+
 
         [HttpPut()]
         public CustomerEntity Update(CustomerEntity entity)
         {
-            return CustomerService.Update(entity.CustomerId, entity, out bool changed);
+            return CustomerService1.Update(entity.CustomerId, entity, out bool changed);
         }
 
         [HttpDelete()]
         public CustomerEntity Delete([FromBodyAttribute] CustomerEntity entity)
         {
-            return CustomerService.Delete(entity);
+            return CustomerService1.Delete(entity);
         }
     }
 }

@@ -29,6 +29,8 @@ namespace ProjectAPI.API
             services.AddScoped<BaseModel<Customer>, BaseModel<Customer>>();
             services.AddScoped<BaseService<Post>, BaseService<Post>>();            
             services.AddScoped<BaseModel<Post>, BaseModel<Post>>();
+            services.AddScoped<CustomerModel>();
+            services.AddScoped<CustomerService>();
 
 
             //Agregar cadena de conexion al contexto
