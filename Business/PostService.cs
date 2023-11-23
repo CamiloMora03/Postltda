@@ -64,15 +64,22 @@ namespace Business
             return base.Create(entity);
         }
 
+        /// <summary>
+        /// Elimina todos los Posts asociados a un Customer específico.
+        /// </summary>
+        /// <param name="customerId">El ID del Customer cuyos Posts se van a eliminar.</param>
         public void DeletePostsByCustomerId(int customerId)
         {
+            // Obtiene todos los Posts que pertenecen al Customer con el ID especificado
             var posts = GetAll().Where(post => post.CustomerId == customerId).ToList();
 
+            // Recorre cada Post encontrado y lo elimina
             foreach (var post in posts)
             {
                 Delete(post);
             }
         }
+
     }
 
 
